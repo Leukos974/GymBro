@@ -1,31 +1,30 @@
-import React, { useState, useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import {
-  View,
-  Text,
-  StyleSheet,
-  useWindowDimensions,
-  ActivityIndicator,
+    StyleSheet,
+    Text,
+    useWindowDimensions,
+    View
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withSpring,
-  withTiming,
-  runOnJS,
-  interpolate,
-  Extrapolation,
-} from 'react-native-reanimated';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
+import Animated, {
+    Extrapolation,
+    interpolate,
+    runOnJS,
+    useAnimatedStyle,
+    useSharedValue,
+    withSpring,
+    withTiming,
+} from 'react-native-reanimated';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { TopBar } from '@/components/top-bar';
-import { ProfileCard } from '@/components/profile-card';
 import { ActionButtons } from '@/components/action-buttons';
 import { MatchModal } from '@/components/match-modal';
+import { ProfileCard } from '@/components/profile-card';
+import { TopBar } from '@/components/top-bar';
 
-import { User } from '@/types';
 import { Colors } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
+import { User } from '@/types';
 
 // ── Mock data ───────────────────────────────────────────────
 // Replace `imageUri` values with your own local or remote image URLs
