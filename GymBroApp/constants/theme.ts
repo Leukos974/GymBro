@@ -1,56 +1,48 @@
-/**
- * GymBro – App Theme
- */
-
 import { Platform } from 'react-native';
 
-const tintColorLight = '#E74C3C'; // energetic red
-const tintColorDark = '#FF6B6B';
+// GymBro brand colors
+export const GymBroColors = {
+  primary: '#1B3C2D',       // Dark green for headers/text
+  secondary: '#2E5A45',     // Slightly lighter green
+  accent: '#2B4C8C',        // Blue for buttons/bubbles
+  accentDark: '#1E3A6E',    // Darker blue
+  white: '#FFFFFF',
+  black: '#000000',
+  grey: '#F5F5F5',
+  greyText: '#888888',
+  greyBorder: '#E0E0E0',
+  cardBg: '#FFFFFF',
+  overlay: 'rgba(0,0,0,0.5)',
+  headerBg: '#1B1B1B',
+};
+
+const tintColorLight = GymBroColors.primary;
+const tintColorDark = '#fff';
 
 export const Colors = {
   light: {
-    text: '#1A1A2E',
-    textSecondary: '#6C757D',
-    background: '#F8F9FA',
-    card: '#FFFFFF',
+    text: '#11181C',
+    background: '#fff',
     tint: tintColorLight,
     icon: '#687076',
     tabIconDefault: '#687076',
     tabIconSelected: tintColorLight,
-    accent: '#E74C3C',
-    accentLight: '#FADBD8',
-    success: '#27AE60',
-    successLight: '#D5F5E3',
-    border: '#E9ECEF',
-    overlay: 'rgba(0,0,0,0.35)',
   },
   dark: {
     text: '#ECEDEE',
-    textSecondary: '#9BA1A6',
-    background: '#0D1117',
-    card: '#161B22',
+    background: '#151718',
     tint: tintColorDark,
     icon: '#9BA1A6',
     tabIconDefault: '#9BA1A6',
     tabIconSelected: tintColorDark,
-    accent: '#FF6B6B',
-    accentLight: '#3D1F1F',
-    success: '#2ECC71',
-    successLight: '#1A3D2B',
-    border: '#30363D',
-    overlay: 'rgba(0,0,0,0.55)',
   },
 };
 
 export const Fonts = Platform.select({
   ios: {
-    /** iOS `UIFontDescriptorSystemDesignDefault` */
     sans: 'system-ui',
-    /** iOS `UIFontDescriptorSystemDesignSerif` */
     serif: 'ui-serif',
-    /** iOS `UIFontDescriptorSystemDesignRounded` */
     rounded: 'ui-rounded',
-    /** iOS `UIFontDescriptorSystemDesignMonospaced` */
     mono: 'ui-monospace',
   },
   default: {
@@ -65,4 +57,4 @@ export const Fonts = Platform.select({
     rounded: "'SF Pro Rounded', 'Hiragino Maru Gothic ProN', Meiryo, 'MS PGothic', sans-serif",
     mono: "SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace",
   },
-});
+}) as { sans: string; serif: string; rounded: string; mono: string };

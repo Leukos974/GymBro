@@ -25,8 +25,9 @@ router.get('/discover', async (req: Request, res: Response) => {
       LEFT JOIN gym g ON u.gym_id = g.id
       WHERE u.id != ?
         AND u.id NOT IN (SELECT liked_id FROM user_like WHERE liker_id = ?)
+        AND u.id NOT IN (SELECT seen_id FROM user_seen WHERE viewer_id = ?)
     `;
-    const params: any[] = [currentUserId, currentUserId];
+    const params: any[] = [currentUserId, currentUserId, currentUserId];
 
     if (minAge !== null) {
       sql += ' AND u.age >= ?';
@@ -127,6 +128,34 @@ router.put('/:id', async (req: Request, res: Response) => {
   }
 });
 
+// ── PATCH /api/users/:id ────────────────────────────────────
+// Partial update (e.g. just attachment_id)
+router.patch('/:id', async (req: Request, res: Response) => {
+  let conn;
+  try {
+    conn = await pool.getConnection();
+    const fields = req.body;
+    const allowed = ['name', 'family_name', 'age', 'type', 'description', 'gym_id', 'attachment_id'];
+    const sets: string[] = [];
+    const vals: any[] = [];
+    for (const key of allowed) {
+      if (key in fields) {
+        sets.push(`${key} = ?`);
+        vals.push(fields[key]);
+      }
+    }
+    if (sets.length === 0) return res.status(400).json({ error: 'No fields to update' });
+    vals.push(req.params.id);
+    await conn.query(`UPDATE user SET ${sets.join(', ')} WHERE id = ?`, vals);
+    res.json({ success: true });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to patch user' });
+  } finally {
+    if (conn) conn.release();
+  }
+});
+
 // ── POST /api/users/:id/like ────────────────────────────────
 // Like another user. If mutual, create a relation (match).
 router.post('/:id/like', async (req: Request, res: Response) => {
@@ -170,14 +199,24 @@ router.post('/:id/like', async (req: Request, res: Response) => {
 });
 
 // ── POST /api/users/:id/pass ────────────────────────────────
-// Record a pass (still insert into user_like so they don't reappear — or use a separate table)
-// For now we just acknowledge it; the user won't reappear because the discover
-// query already filters out previously-seen users via user_like.
-// We add a special "pass" so they are excluded.
+// Record a pass so the user doesn't reappear in discover.
 router.post('/:id/pass', async (req: Request, res: Response) => {
-  // We just don't insert anything — the frontend will skip them in local state.
-  // In a real app you'd have a "user_seen" table.
-  res.json({ success: true });
+  let conn;
+  try {
+    conn = await pool.getConnection();
+    const viewerId = parseInt(req.params.id);
+    const seenId = parseInt(req.body.seenUserId);
+    await conn.query(
+      'INSERT IGNORE INTO user_seen (viewer_id, seen_id) VALUES (?, ?)',
+      [viewerId, seenId]
+    );
+    res.json({ success: true });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to record pass' });
+  } finally {
+    if (conn) conn.release();
+  }
 });
 
 // ── GET /api/users/:id/matches ──────────────────────────────
