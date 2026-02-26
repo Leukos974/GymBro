@@ -1,4 +1,4 @@
-import { User, Match, Conversation } from '@/types';
+import { Conversation, Match, User } from '@/types';
 
 // ── Current User (Lucas) ─────────────────────────────────
 export const currentUser: User = {

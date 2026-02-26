@@ -1,20 +1,20 @@
-import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  Image,
-  TouchableOpacity,
-  TextInput,
-  Dimensions,
-  Modal,
-} from 'react-native';
-import { useRouter } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
 import { GymBroColors } from '@/constants/theme';
 import { currentUser, matches } from '@/data/mock';
 import { Match } from '@/types';
+import { Ionicons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
+import React, { useState } from 'react';
+import {
+    Dimensions,
+    Image,
+    Modal,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View,
+} from 'react-native';
 
 const { width } = Dimensions.get('window');
 
@@ -50,58 +50,66 @@ export default function HomeScreen() {
       </View>
 
       <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
-        {/* Search Bar */}
-        <View style={styles.searchContainer}>
-          <TextInput
-            style={styles.searchInput}
-            placeholder="RECHERCHE..."
-            placeholderTextColor={GymBroColors.greyText}
-            value={searchText}
-            onChangeText={setSearchText}
-          />
-          <Ionicons name="search" size={24} color={GymBroColors.greyText} style={styles.searchIcon} />
+        {/* Black zone: search + ON AIR banner */}
+        <View style={styles.darkZone}>
+          {/* Search Bar */}
+          <View style={styles.searchContainer}>
+            <TextInput
+              style={styles.searchInput}
+              placeholder="RECHERCHE..."
+              placeholderTextColor={GymBroColors.greyText}
+              value={searchText}
+              onChangeText={setSearchText}
+            />
+            <Ionicons name="search" size={24} color={GymBroColors.greyText} style={styles.searchIcon} />
+          </View>
+
+          {/* ON AIR Banner Image */}
+          <View style={styles.bannerContainer}>
+            <Image
+              source={require('@/assets/images/onair.png')}
+              style={styles.bannerImage}
+              resizeMode="contain"
+            />
+          </View>
         </View>
 
-        {/* Gym Banner */}
-        <View style={styles.bannerContainer}>
-          <Text style={styles.bannerTitle}>ON AIR</Text>
-          <Text style={styles.bannerSubtitle}>O R I G I N A L   F I T N E S S</Text>
-        </View>
+        {/* Smooth transition into content */}
+        <View style={styles.contentArea}>
+          <View style={styles.matchsSection}>
+            <Text style={styles.matchsTitle}>VOS MATCHS</Text>
+            <View style={styles.matchsDivider} />
+          </View>
 
-        {/* VOS MATCHS Section */}
-        <View style={styles.matchsSection}>
-          <Text style={styles.matchsTitle}>VOS MATCHS</Text>
-          <View style={styles.matchsDivider} />
-        </View>
-
-        {/* Match Cards */}
-        {matches.map((match) => (
-          <View key={match.id} style={styles.matchCard}>
-            {match.isTopMatch && (
-              <Text style={styles.topMatchLabel}>TOP MATCH  🔥</Text>
-            )}
-            <View style={styles.matchCardContent}>
-              <View style={styles.matchAvatarContainer}>
-                <Image source={match.user.photo} style={styles.matchAvatar} />
-                <Text style={styles.matchName}>{match.user.name}</Text>
-              </View>
-              <View style={styles.matchInfo}>
-                <Text style={styles.matchLevel}>{match.user.level}</Text>
-                <Text style={styles.matchDetail}>{match.user.objective}</Text>
-                <Text style={styles.matchDetail}>{match.user.availability}</Text>
-                <Text style={styles.matchGym}>{match.user.gym}</Text>
-                <TouchableOpacity
-                  style={styles.matchButton}
-                  onPress={() => handleMatchPress(match)}
-                >
-                  <Text style={styles.matchButtonText}>Je Matche !</Text>
-                </TouchableOpacity>
+          {/* Match Cards */}
+          {matches.map((match) => (
+            <View key={match.id} style={styles.matchCard}>
+              {match.isTopMatch && (
+                <Text style={styles.topMatchLabel}>TOP MATCH  🔥</Text>
+              )}
+              <View style={styles.matchCardContent}>
+                <View style={styles.matchAvatarContainer}>
+                  <Image source={match.user.photo} style={styles.matchAvatar} />
+                  <Text style={styles.matchName}>{match.user.name}</Text>
+                </View>
+                <View style={styles.matchInfo}>
+                  <Text style={styles.matchLevel}>{match.user.level}</Text>
+                  <Text style={styles.matchDetail}>{match.user.objective}</Text>
+                  <Text style={styles.matchDetail}>{match.user.availability}</Text>
+                  <Text style={styles.matchGym}>{match.user.gym}</Text>
+                  <TouchableOpacity
+                    style={styles.matchButton}
+                    onPress={() => handleMatchPress(match)}
+                  >
+                    <Text style={styles.matchButtonText}>Je Matche !</Text>
+                  </TouchableOpacity>
+                </View>
               </View>
             </View>
-          </View>
-        ))}
+          ))}
 
-        <View style={{ height: 30 }} />
+          <View style={{ height: 40 }} />
+        </View>
       </ScrollView>
 
       {/* Match Popup Modal */}
@@ -158,34 +166,35 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: GymBroColors.white,
+    backgroundColor: GymBroColors.grey,
   },
-  // ── Header ──────────────────────────────────────────
+  // ── Header (white bg) ──────────────────────────────
   header: {
-    backgroundColor: GymBroColors.headerBg,
+    backgroundColor: GymBroColors.white,
     paddingTop: 55,
-    paddingBottom: 16,
-    paddingHorizontal: 20,
+    paddingBottom: 14,
+    paddingHorizontal: 24,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
   headerTitle: {
     color: GymBroColors.primary,
-    fontSize: 28,
+    fontSize: 30,
     fontWeight: '900',
     fontFamily: 'serif',
   },
   headerSubtitle: {
     color: GymBroColors.primary,
-    fontSize: 12,
-    letterSpacing: 3,
+    fontSize: 11,
+    letterSpacing: 4,
     fontWeight: '600',
+    marginTop: 2,
   },
   headerAvatar: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
+    width: 52,
+    height: 52,
+    borderRadius: 26,
     overflow: 'hidden',
     borderWidth: 2,
     borderColor: GymBroColors.primary,
@@ -198,84 +207,82 @@ const styles = StyleSheet.create({
   scrollView: {
     flex: 1,
   },
-  // ── Search ──────────────────────────────────────────
+  // ── Dark Zone (search + banner) ─────────────────────
+  darkZone: {
+    backgroundColor: GymBroColors.black,
+    paddingBottom: 50,
+  },
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginHorizontal: 20,
-    marginTop: 16,
+    marginHorizontal: 24,
+    marginTop: 20,
     borderWidth: 1.5,
-    borderColor: GymBroColors.greyBorder,
+    borderColor: 'rgba(255,255,255,0.2)',
     borderRadius: 30,
     paddingHorizontal: 20,
-    height: 48,
-    backgroundColor: GymBroColors.white,
+    height: 50,
+    backgroundColor: 'rgba(255,255,255,0.08)',
   },
   searchInput: {
     flex: 1,
     fontSize: 14,
-    color: GymBroColors.black,
+    color: GymBroColors.white,
   },
   searchIcon: {
     marginLeft: 8,
   },
   // ── Banner ──────────────────────────────────────────
   bannerContainer: {
-    marginHorizontal: 20,
-    marginTop: 16,
-    backgroundColor: GymBroColors.black,
-    borderRadius: 12,
-    overflow: 'hidden',
-    height: 120,
-    justifyContent: 'center',
+    marginTop: 24,
     alignItems: 'center',
+    paddingHorizontal: 40,
+    paddingBottom: 10,
   },
-  bannerTitle: {
-    color: GymBroColors.white,
-    fontSize: 42,
-    fontWeight: '900',
-    letterSpacing: 6,
+  bannerImage: {
+    width: '100%',
+    height: 110,
   },
-  bannerSubtitle: {
-    color: GymBroColors.white,
-    fontSize: 12,
-    letterSpacing: 4,
-    marginTop: 4,
+  // ── Content area (smooth rounded transition) ──────
+  contentArea: {
+    backgroundColor: GymBroColors.grey,
+    borderTopLeftRadius: 40,
+    borderTopRightRadius: 40,
+    marginTop: -30,
+    paddingTop: 10,
   },
   // ── Matchs Section ─────────────────────────────────
   matchsSection: {
-    marginTop: 24,
-    marginHorizontal: 20,
+    paddingTop: 24,
+    paddingBottom: 16,
     alignItems: 'center',
   },
   matchsTitle: {
-    fontSize: 24,
+    fontSize: 26,
     fontWeight: '900',
     color: GymBroColors.primary,
     fontFamily: 'serif',
-    letterSpacing: 2,
+    letterSpacing: 3,
   },
   matchsDivider: {
     width: 60,
     height: 3,
     backgroundColor: GymBroColors.primary,
-    marginTop: 8,
+    marginTop: 10,
     borderRadius: 2,
   },
   // ── Match Card ──────────────────────────────────────
   matchCard: {
-    marginHorizontal: 20,
-    marginTop: 20,
+    marginHorizontal: 24,
+    marginTop: 18,
     backgroundColor: GymBroColors.white,
-    borderRadius: 16,
-    padding: 20,
+    borderRadius: 18,
+    padding: 22,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
+    shadowOpacity: 0.08,
+    shadowRadius: 10,
     elevation: 4,
-    borderWidth: 1,
-    borderColor: GymBroColors.greyBorder,
   },
   topMatchLabel: {
     fontSize: 16,

@@ -1,16 +1,16 @@
+import { GymBroColors } from '@/constants/theme';
+import { conversations, currentUser } from '@/data/mock';
+import { Ionicons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 import React from 'react';
 import {
-  View,
-  Text,
-  StyleSheet,
-  FlatList,
-  Image,
-  TouchableOpacity,
+    FlatList,
+    Image,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View,
 } from 'react-native';
-import { useRouter } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
-import { GymBroColors } from '@/constants/theme';
-import { currentUser, conversations } from '@/data/mock';
 
 export default function MessagesScreen() {
   const router = useRouter();
@@ -73,30 +73,31 @@ const styles = StyleSheet.create({
     backgroundColor: GymBroColors.white,
   },
   header: {
-    backgroundColor: GymBroColors.headerBg,
+    backgroundColor: GymBroColors.white,
     paddingTop: 55,
-    paddingBottom: 16,
-    paddingHorizontal: 20,
+    paddingBottom: 14,
+    paddingHorizontal: 24,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
   headerTitle: {
     color: GymBroColors.primary,
-    fontSize: 28,
+    fontSize: 30,
     fontWeight: '900',
     fontFamily: 'serif',
   },
   headerSubtitle: {
     color: GymBroColors.primary,
-    fontSize: 12,
-    letterSpacing: 3,
+    fontSize: 11,
+    letterSpacing: 4,
     fontWeight: '600',
+    marginTop: 2,
   },
   headerAvatar: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
+    width: 52,
+    height: 52,
+    borderRadius: 26,
     overflow: 'hidden',
     borderWidth: 2,
     borderColor: GymBroColors.primary,

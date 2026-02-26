@@ -1,16 +1,16 @@
-import React from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  ImageBackground,
-  Image,
-  TouchableOpacity,
-  Dimensions,
-} from 'react-native';
-import { useRouter } from 'expo-router';
 import { GymBroColors } from '@/constants/theme';
 import { currentUser } from '@/data/mock';
+import { useRouter } from 'expo-router';
+import React from 'react';
+import {
+    Dimensions,
+    Image,
+    ImageBackground,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View,
+} from 'react-native';
 
 const { width, height } = Dimensions.get('window');
 
