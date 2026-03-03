@@ -1,4 +1,5 @@
 # GymBro 💪
+## Dans le cadre de la Start-up Week de CREALISE
 
 **GymBro** est une application mobile de mise en relation entre sportifs fréquentant les salles de sport à La Réunion.
 
