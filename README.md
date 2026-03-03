@@ -20,7 +20,7 @@ L'idée est simple : trouver un partenaire d'entraînement qui correspond à ton
 
 ```bash
 npm install
-npx expo start
+npm run start
 ```
 
 > ⚠️ MVP avec données fictives uniquement (pas de backend actif).
